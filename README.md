@@ -126,13 +126,3 @@ npm run dev
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- [Google Gemini AI](https://deepmind.google/technologies/gemini/)
-- [YouTube Transcript API](https://github.com/jdepoix/youtube-transcript-api)
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [React](https://reactjs.org/)
