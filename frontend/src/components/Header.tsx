@@ -30,8 +30,8 @@ export const Header = ({
   githubUrl = 'https://github.com',
 }: HeaderProps) => {
   const { colorMode, toggleColorMode } = useColorMode();
-  const bgColor = useColorModeValue('white', 'gray.800');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
+  const bgColor = useColorModeValue('rgba(255, 255, 255, 0.85)', 'rgba(26, 32, 44, 0.85)');
+  const borderColor = useColorModeValue('rgba(226, 232, 240, 0.5)', 'rgba(74, 85, 104, 0.5)');
 
   return (
     <Box 
@@ -39,14 +39,14 @@ export const Header = ({
       position="sticky" 
       top={0} 
       zIndex={10} 
-      bg={bgColor} 
+      bg={bgColor}
       boxShadow="sm"
       borderBottom="1px" 
       borderColor={borderColor}
       backdropFilter="blur(10px)"
       transition="all 0.3s ease"
     >
-      <Container maxW="container.md" py={3}>
+      <Container maxW="container.xl" py={3}>
         <Flex justify="space-between" align="center">
           <Flex align="center">
             <Image 
@@ -87,6 +87,9 @@ export const Header = ({
                 variant="ghost"
                 leftIcon={<FaGithub />}
                 display={["none", "flex"]}
+                _hover={{
+                  bg: useColorModeValue('rgba(237, 242, 247, 0.8)', 'rgba(45, 55, 72, 0.8)')
+                }}
               >
                 GitHub
               </Button>
@@ -100,6 +103,9 @@ export const Header = ({
                 variant="ghost"
                 colorScheme={colorMode === 'light' ? 'gray' : 'yellow'}
                 size="sm"
+                _hover={{
+                  bg: useColorModeValue('rgba(237, 242, 247, 0.8)', 'rgba(45, 55, 72, 0.8)')
+                }}
               />
             )}
           </HStack>

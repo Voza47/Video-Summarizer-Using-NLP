@@ -1,139 +1,155 @@
 import {
   Box,
   Container,
-  Text,
-  VStack,
-  HStack,
+  Flex,
   Link,
+  Text,
   Icon,
-  useColorModeValue,
+  HStack,
   Divider,
-  Button
+  useColorModeValue,
+  VStack,
+  Badge
 } from '@chakra-ui/react';
-import { FaGithub, FaReact, FaPython, FaRobot } from 'react-icons/fa';
-import { SiChakraui, SiFastapi } from 'react-icons/si';
+import { FaGithub, FaReact, FaPython, FaCode, FaBrain, FaYoutube } from 'react-icons/fa';
 
 interface FooterProps {
   showTechStack?: boolean;
   githubUrl?: string;
 }
 
-export const Footer = ({ 
-  showTechStack = true,
-  githubUrl = 'https://github.com'
-}: FooterProps) => {
-  const year = new Date().getFullYear();
-  const textColor = useColorModeValue('gray.600', 'gray.400');
-  const borderColor = useColorModeValue('gray.200', 'gray.700');
-  const bgColor = useColorModeValue('gray.50', 'gray.900');
+const Footer = ({ showTechStack = true, githubUrl = '#' }: FooterProps) => {
+  const bgColor = useColorModeValue('rgba(247, 250, 252, 0.8)', 'rgba(26, 32, 44, 0.8)');
+  const textColor = useColorModeValue('gray.600', 'gray.300');
+  const linkColor = useColorModeValue('red.500', 'red.300');
+  const badgeBg = useColorModeValue('rgba(255, 255, 255, 0.7)', 'rgba(45, 55, 72, 0.7)');
+  const borderColor = useColorModeValue('rgba(226, 232, 240, 0.5)', 'rgba(74, 85, 104, 0.5)');
   
   return (
     <Box 
       as="footer" 
-      mt={10} 
-      py={8}
-      borderTop="1px" 
-      borderTopColor={borderColor}
+      pt={6} 
+      pb={6}
       bg={bgColor}
+      mt={8}
+      borderTopWidth="1px"
+      borderTopColor={borderColor}
+      backdropFilter="blur(10px)"
+      boxShadow="0 -5px 20px rgba(0, 0, 0, 0.05)"
     >
-      <Container maxW="container.md" centerContent>
-        <VStack spacing={6} textAlign="center">
-          <Text 
-            fontSize="sm" 
-            fontWeight="medium"
-            color={textColor}
-          >
-            Video Summarizer using NLP
-          </Text>
-          
+      <Container maxW="container.xl">
+        <VStack spacing={6} align="stretch">
           {showTechStack && (
-            <HStack spacing={4} wrap="wrap" justify="center">
-              <Button 
-                leftIcon={<Icon as={FaReact} />}
-                size="xs" 
-                variant="ghost" 
-                colorScheme="blue"
-                as={Link}
-                href="https://reactjs.org"
-                isExternal
+            <Box>
+              <Text 
+                fontSize="sm" 
+                fontWeight="bold" 
+                mb={3} 
+                textAlign="center"
+                color={textColor}
+                textTransform="uppercase"
+                letterSpacing="wider"
               >
-                React
-              </Button>
-              
-              <Button 
-                leftIcon={<Icon as={SiChakraui} />}
-                size="xs" 
-                variant="ghost" 
-                colorScheme="teal"
-                as={Link}
-                href="https://chakra-ui.com"
-                isExternal
+                Built with
+              </Text>
+              <Flex 
+                justify="center" 
+                wrap="wrap" 
+                gap={3}
               >
-                Chakra UI
-              </Button>
-              
-              <Button 
-                leftIcon={<Icon as={FaPython} />}
-                size="xs" 
-                variant="ghost" 
-                colorScheme="yellow"
-                as={Link}
-                href="https://www.python.org"
-                isExternal
-              >
-                Python
-              </Button>
-              
-              <Button 
-                leftIcon={<Icon as={SiFastapi} />}
-                size="xs" 
-                variant="ghost" 
-                colorScheme="green"
-                as={Link}
-                href="https://fastapi.tiangolo.com"
-                isExternal
-              >
-                FastAPI
-              </Button>
-              
-              <Button 
-                leftIcon={<Icon as={FaRobot} />}
-                size="xs" 
-                variant="ghost" 
-                colorScheme="purple"
-                as={Link}
-                href="https://ai.google.dev"
-                isExternal
-              >
-                Gemini AI
-              </Button>
-            </HStack>
+                <Badge 
+                  display="flex" 
+                  alignItems="center" 
+                  px={3} 
+                  py={2} 
+                  borderRadius="full" 
+                  fontSize="xs"
+                  bg={badgeBg}
+                  color={textColor}
+                  boxShadow="0 1px 2px rgba(0,0,0,0.05)"
+                  backdropFilter="blur(5px)"
+                >
+                  <Icon as={FaReact} mr={1} color="blue.400" /> React
+                </Badge>
+                <Badge 
+                  display="flex" 
+                  alignItems="center" 
+                  px={3} 
+                  py={2} 
+                  borderRadius="full" 
+                  fontSize="xs"
+                  bg={badgeBg}
+                  color={textColor}
+                  boxShadow="0 1px 2px rgba(0,0,0,0.05)"
+                  backdropFilter="blur(5px)"
+                >
+                  <Icon as={FaCode} mr={1} color="blue.600" /> TypeScript
+                </Badge>
+                <Badge 
+                  display="flex" 
+                  alignItems="center" 
+                  px={3} 
+                  py={2} 
+                  borderRadius="full" 
+                  fontSize="xs"
+                  bg={badgeBg}
+                  color={textColor}
+                  boxShadow="0 1px 2px rgba(0,0,0,0.05)"
+                  backdropFilter="blur(5px)"
+                >
+                  <Icon as={FaPython} mr={1} color="green.500" /> FastAPI
+                </Badge>
+                <Badge 
+                  display="flex" 
+                  alignItems="center" 
+                  px={3} 
+                  py={2} 
+                  borderRadius="full" 
+                  fontSize="xs"
+                  bg={badgeBg}
+                  color={textColor}
+                  boxShadow="0 1px 2px rgba(0,0,0,0.05)"
+                  backdropFilter="blur(5px)"
+                >
+                  <Icon as={FaBrain} mr={1} color="purple.500" /> Advanced AI
+                </Badge>
+                <Badge 
+                  display="flex" 
+                  alignItems="center" 
+                  px={3} 
+                  py={2} 
+                  borderRadius="full" 
+                  fontSize="xs"
+                  bg={badgeBg}
+                  color={textColor}
+                  boxShadow="0 1px 2px rgba(0,0,0,0.05)"
+                  backdropFilter="blur(5px)"
+                >
+                  <Icon as={FaYoutube} mr={1} color="red.500" /> YouTube API
+                </Badge>
+              </Flex>
+            </Box>
           )}
           
-          <Divider borderColor={borderColor} w="50%" />
+          <Divider borderColor={borderColor} />
           
-          <VStack spacing={1}>
-            <Text fontSize="xs" color={textColor}>
-              Powered by Google Gemini AI • Built with FastAPI and React
+          <Flex justify="center" align="center" fontSize="sm">
+            <Text color={textColor} textAlign="center">
+              © {new Date().getFullYear()} Video Summarizer
+              <Text as="span" mx={2}>•</Text>
+              <Link 
+                href={githubUrl} 
+                isExternal 
+                color={linkColor}
+                _hover={{ textDecoration: 'none', color: 'red.400' }}
+                fontWeight="medium"
+                display="inline-flex"
+                alignItems="center"
+              >
+                <Icon as={FaGithub} mr={1} /> View on GitHub
+              </Link>
             </Text>
-            
-            <Text fontSize="xs" color={textColor}>
-              © {year} Video Summarizer using NLP
-            </Text>
-          </VStack>
-          
-          <Button
-            as="a"
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            size="sm"
-            leftIcon={<FaGithub />}
-            variant="outline"
-            colorScheme="gray"
-          >
-            View on GitHub
-          </Button>
+          </Flex>
         </VStack>
       </Container>
     </Box>

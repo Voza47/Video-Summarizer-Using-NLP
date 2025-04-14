@@ -40,6 +40,7 @@ import VideoInputForm from './components/VideoInputForm'
 import VideoResult from './components/VideoResult'
 import LoadingSkeleton from './components/LoadingSkeleton'
 import Footer from './components/Footer'
+import BackgroundAnimation from './components/BackgroundAnimation'
 import { SummarizeResponse, VideoInfo } from './types'
 import { extractVideoId, generateThumbnailUrl } from './utils/formatters'
 import { apiService } from './utils/api'
@@ -93,7 +94,8 @@ const theme = extendTheme({
           borderRadius: 'xl',
           overflow: 'hidden',
           boxShadow: 'lg',
-          bg: props.colorMode === 'dark' ? 'gray.800' : 'white',
+          bg: props.colorMode === 'dark' ? 'rgba(26, 32, 44, 0.8)' : 'rgba(255, 255, 255, 0.9)',
+          backdropFilter: 'blur(10px)',
           transition: 'all 0.3s ease',
           _hover: {
             transform: 'translateY(-2px)',
@@ -150,6 +152,7 @@ function App() {
   const cardBg = useColorModeValue('white', 'gray.800')
   const accentBg = useColorModeValue('red.50', 'red.900')
   const primaryColor = useColorModeValue('red.500', 'red.300')
+  const { colorMode } = useColorMode()
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.target as HTMLImageElement;
@@ -232,46 +235,80 @@ function App() {
     return new Intl.NumberFormat().format(views) + ' views'
   }
 
+  // Choose the background animation type based on color mode
+  const animationType = colorMode === 'dark' ? 'net' : 'fog'
+
   return (
-    <Box minH="100vh" display="flex" flexDirection="column">
-      {/* Header */}
-      <Header 
-        title="Video Summarizer using NLP" 
-        subtitle="Powered by Google Gemini AI"
-        showGithubLink={true}
-        githubUrl="https://github.com"
+    <ThemeProvider theme={theme}>
+      {/* Background Animation */}
+      <BackgroundAnimation 
+        type={animationType}
+        color={colorMode === 'dark' ? '#ff5555' : '#ff3333'}
+        backgroundColor={colorMode === 'dark' ? '#1a202c' : '#f7fafc'}
+        mouseControls={true}
+        touchControls={true}
+        scale={1.0}
+        scaleMobile={1.0}
+        speed={colorMode === 'dark' ? 1.0 : 3.0}
       />
       
-      {/* Main Content */}
-      <Box flex="1" py={8}>
-        <Container maxW="container.md">
-          <VStack spacing={4}>
-            {/* Video Input Form */}
-            <VideoInputForm onSubmit={handleSubmit} isLoading={loading} />
+      {/* Content container with subtle backdrop */}
+      <Box 
+        minH="100vh" 
+        position="relative"
+        sx={{
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            bg: colorMode === 'dark' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+            backdropFilter: "blur(1px)",
+            zIndex: -1,
+          }
+        }}
+      >
+        <Container maxW="container.xl" py={8}>
+          <VStack spacing={8} align="stretch">
+            <Header 
+              title="Video Summarizer using NLP"
+              subtitle="Powered by Advanced AI"
+              showGithubLink={true}
+              githubUrl="https://github.com/your-username/video-summarizer"
+            />
             
-            {/* Loading Skeleton */}
-            <LoadingSkeleton isVisible={loading} />
+            <Card overflow="hidden" variant="filled" p={6}>
+              <CardBody>
+                <VideoInputForm onSubmit={handleSubmit} isLoading={loading} />
+              </CardBody>
+            </Card>
+
+            {/* Rest of your existing components */}
+            {loading && <LoadingSkeleton isVisible={loading} />}
             
-            {/* Video Result */}
-            {!loading && thumbnail && videoInfo && (
-              <VideoResult
-                videoInfo={videoInfo}
-                summary={summary}
-                thumbnail={thumbnail}
-                videoUrl={videoUrl}
-                isMusicVideo={isMusicVideo}
-                hasTranscript={hasTranscript}
-                successScore={successScore}
-                handleImageError={handleImageError}
-              />
+            {!loading && summary && videoInfo && (
+              <ScaleFade in={Boolean(summary)} initialScale={0.9}>
+                <VideoResult 
+                  summary={summary}
+                  videoInfo={videoInfo}
+                  thumbnail={thumbnail}
+                  videoUrl={videoUrl}
+                  isMusicVideo={isMusicVideo}
+                  hasTranscript={hasTranscript}
+                  successScore={successScore}
+                  handleImageError={handleImageError}
+                />
+              </ScaleFade>
             )}
           </VStack>
         </Container>
+        <Box mt={10}>
+          <Footer showTechStack={true} githubUrl="https://github.com/your-username/video-summarizer" />
+        </Box>
       </Box>
-      
-      {/* Footer */}
-      <Footer showTechStack={true} githubUrl="https://github.com" />
-    </Box>
+    </ThemeProvider>
   )
 }
 

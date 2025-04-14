@@ -12,7 +12,8 @@ import {
   useToast,
   InputRightElement,
   IconButton,
-  Flex
+  Flex,
+  Box
 } from '@chakra-ui/react';
 import { useState } from 'react';
 import { FaYoutube, FaLink, FaHistory, FaTimes } from 'react-icons/fa';
@@ -31,8 +32,8 @@ export const VideoInputForm = ({ onSubmit, isLoading }: VideoInputFormProps) => 
   
   const cardBg = useColorModeValue('white', 'gray.800');
   const inputBg = useColorModeValue('gray.50', 'gray.700');
-  const inputBorder = useColorModeValue('gray.200', 'gray.600');
-  const hoverBorder = useColorModeValue('gray.300', 'gray.500');
+  const borderColor = useColorModeValue('gray.200', 'gray.600');
+  const textColor = useColorModeValue('gray.700', 'white');
 
   const handleSubmit = () => {
     if (!url) {
@@ -89,16 +90,28 @@ export const VideoInputForm = ({ onSubmit, isLoading }: VideoInputFormProps) => 
   };
 
   return (
-    <Card w="full" bg={cardBg} boxShadow="xl" borderRadius="2xl" position="relative">
-      <CardBody>
-        <VStack spacing={4}>
-          <Text fontSize="lg" color={useColorModeValue('gray.600', 'gray.300')}>
+    <Card
+      w="full"
+      bg={cardBg}
+      boxShadow="xl"
+      borderRadius="2xl"
+      position="relative"
+      overflow="hidden"
+    >
+      <CardBody p={6}>
+        <VStack spacing={6}>
+          <Text
+            fontSize="xl"
+            fontWeight="bold"
+            color={textColor}
+            textAlign="center"
+          >
             Enter a YouTube video URL to get an AI-generated summary
           </Text>
           
           <InputGroup size="lg">
             <InputLeftElement pointerEvents="none">
-              <Icon as={FaLink} color={useColorModeValue('gray.400', 'gray.500')} />
+              <Icon as={FaYoutube} color="red.400" boxSize={5} />
             </InputLeftElement>
             
             <Input
@@ -106,20 +119,24 @@ export const VideoInputForm = ({ onSubmit, isLoading }: VideoInputFormProps) => 
               onChange={(e) => setUrl(e.target.value)}
               placeholder="https://www.youtube.com/watch?v=..."
               bg={inputBg}
-              border="2px"
-              borderColor={inputBorder}
+              border="1px"
+              borderColor={borderColor}
+              color={textColor}
               onKeyPress={handleKeyPress}
               _hover={{
-                borderColor: hoverBorder
+                borderColor: 'red.300'
               }}
               _focus={{
                 borderColor: 'red.500',
                 boxShadow: '0 0 0 1px var(--chakra-colors-red-500)'
               }}
               pr="4.5rem"
+              size="lg"
+              height="60px"
+              fontSize="md"
             />
             
-            <InputRightElement width="4.5rem">
+            <InputRightElement width="4.5rem" h="60px">
               {url && (
                 <IconButton
                   aria-label="Clear input"
@@ -146,57 +163,56 @@ export const VideoInputForm = ({ onSubmit, isLoading }: VideoInputFormProps) => 
           </InputGroup>
           
           {showHistory && recentUrls.length > 0 && (
-            <Card 
+            <Box 
               position="absolute" 
-              top="100%" 
+              top="calc(100% - 20px)" 
               left={0} 
               right={0} 
               zIndex={10} 
-              mt={2} 
               bg={cardBg}
-              boxShadow="md"
               borderRadius="md"
+              boxShadow="md"
               borderWidth="1px"
-              borderColor={inputBorder}
+              borderColor={borderColor}
+              overflow="hidden"
             >
-              <CardBody p={2}>
-                <VStack align="stretch" spacing={0}>
-                  <Flex justify="space-between" px={2} py={1}>
-                    <Text fontSize="xs" fontWeight="bold" color={useColorModeValue('gray.500', 'gray.400')}>
-                      RECENT VIDEOS
+              <VStack align="stretch" spacing={0}>
+                <Flex justify="space-between" px={4} py={2}>
+                  <Text fontSize="xs" fontWeight="bold" color={textColor}>
+                    RECENT VIDEOS
+                  </Text>
+                  <Button 
+                    size="xs" 
+                    variant="ghost" 
+                    colorScheme="red" 
+                    onClick={clearHistory}
+                  >
+                    Clear
+                  </Button>
+                </Flex>
+                
+                {recentUrls.map((recentUrl, index) => (
+                  <Button
+                    key={index}
+                    variant="ghost"
+                    justifyContent="flex-start"
+                    px={4}
+                    py={2}
+                    height="auto"
+                    fontSize="sm"
+                    onClick={() => selectRecentUrl(recentUrl)}
+                    _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
+                    borderRadius={0}
+                    color={textColor}
+                  >
+                    <Icon as={FaYoutube} mr={2} color="red.400" />
+                    <Text isTruncated maxW="calc(100% - 2rem)">
+                      {recentUrl}
                     </Text>
-                    <Button 
-                      size="xs" 
-                      variant="ghost" 
-                      colorScheme="red" 
-                      onClick={clearHistory}
-                    >
-                      Clear
-                    </Button>
-                  </Flex>
-                  
-                  {recentUrls.map((recentUrl, index) => (
-                    <Button
-                      key={index}
-                      variant="ghost"
-                      justifyContent="flex-start"
-                      px={2}
-                      py={1}
-                      height="auto"
-                      fontSize="sm"
-                      onClick={() => selectRecentUrl(recentUrl)}
-                      _hover={{ bg: useColorModeValue('gray.100', 'gray.700') }}
-                      borderRadius={0}
-                    >
-                      <Icon as={FaYoutube} mr={2} />
-                      <Text isTruncated maxW="calc(100% - 2rem)">
-                        {recentUrl}
-                      </Text>
-                    </Button>
-                  ))}
-                </VStack>
-              </CardBody>
-            </Card>
+                  </Button>
+                ))}
+              </VStack>
+            </Box>
           )}
           
           <Button
@@ -212,8 +228,15 @@ export const VideoInputForm = ({ onSubmit, isLoading }: VideoInputFormProps) => 
             }}
             leftIcon={<FaYoutube />}
             boxShadow="md"
+            height="60px"
+            fontSize="lg"
+            fontWeight="bold"
+            transition="all 0.3s ease"
+            _active={{
+              transform: "scale(0.98)"
+            }}
           >
-            Summarize
+            Summarize Video
           </Button>
         </VStack>
       </CardBody>
