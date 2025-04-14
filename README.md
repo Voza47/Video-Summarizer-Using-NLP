@@ -92,18 +92,13 @@ cd frontend
 npm install
 ```
 
-3. Install backend dependencies
-```bash
-pip install -r requirements.txt
-```
-
-4. Set up environment variables
+3. Set up environment variables
 ```bash
 cp .env.example .env
 # Add your API key to .env
 ```
 
-5. Start the development servers
+4. Start the development servers
 ```bash
 # Terminal 1 - Backend
 python main.py
