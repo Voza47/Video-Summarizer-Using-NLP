@@ -92,22 +92,18 @@ cd frontend
 npm install
 ```
 
-<<<<<<< HEAD
 3. Install backend dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
 4. Set up environment variables
-=======
-3. Set up environment variables
->>>>>>> 3eaff1621a51ec75fb9e6cf4a1a25b05655598d9
 ```bash
 cp .env.example .env
 # Add your API key to .env
 ```
 
-4. Start the development servers
+5. Start the development servers
 ```bash
 # Terminal 1 - Backend
 python main.py
@@ -128,7 +124,6 @@ npm run dev
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
-<<<<<<< HEAD
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -138,5 +133,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [YouTube Transcript API](https://github.com/jdepoix/youtube-transcript-api)
 - [FastAPI](https://fastapi.tiangolo.com/)
 - [React](https://reactjs.org/)
-=======
->>>>>>> 3eaff1621a51ec75fb9e6cf4a1a25b05655598d9
